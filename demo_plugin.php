@@ -36,7 +36,8 @@ class filters extends rcube_plugin{
 	/**
 	 * This is the main function of the plugin that gets called when the plugin is initialized.
 	 */
-  function init(){
+  function init()
+  {
 	/**
 	 * First we need to get a instance to the current working roundcube in which out plugin is being loaded
 	 * Now $this->rc holds all global roundcube items
@@ -65,5 +66,27 @@ class filters extends rcube_plugin{
 	  * Now we register our plugin into the Roundcube instance using the label
 	  */
 	 $this->rc->output->add_label('demo_plugin');
+  }
+  
+	/**
+	 * This is the function we defined above in the register_action line
+	 */
+  function demo_init()
+  {
+	/**
+	 * The following line does 2 things:
+	 * 1. It sets the pagetitle $this->rc->output->set_pagetitle()
+	 * 2. it gets a specific line of text from the language file $this->gettext('title')
+	 */
+    $this->rc->output->set_pagetitle($this->gettext('title'));
+	/**
+	 * Now we set a handler (what to do when the plugin is called for)
+	 * In our example, we are going to send some specific HTML code using built in Roundcube functions
+	 */
+    $this->register_handler('plugin.body', array($this, 'filters_form'));
+	/**
+	 * We do have to make sure we send all data using the line below
+	 */
+	$this->rc->output->send('plugin');
   }
 }
